@@ -15,10 +15,12 @@ spec:
       annotations:
         # Image updater annotations for the Application
         argocd-image-updater.argoproj.io/image-list: testapp=rohitmmm/argo-cd-test
-        argocd-image-updater.argoproj.io/testapp.update-strategy: semver:~1.0
+        argocd-image-updater.argoproj.io/testapp.update-strategy: semver
         argocd-image-updater.argoproj.io/testapp.allow-tags: regexp:^1\.0\.\d+-dev\.g[a-f0-9]+$
         argocd-image-updater.argoproj.io/write-back-method: argocd
         argocd-image-updater.argoproj.io/testapp.force-update: "true"
+        argocd-image-updater.argoproj.io/testapp.helm.image-name: image.repository
+        argocd-image-updater.argoproj.io/testapp.helm.image-tag: image.tag
     spec:
       project: default
       source:
