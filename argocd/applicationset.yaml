@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argo-cd-test
+  namespace: argocd
+  annotations:
+    # Configure ArgoCD Image Updater
+    argocd-image-updater.argoproj.io/image-list: testapp=localhost:5000/testapp/argo-cd-test
+    argocd-image-updater.argoproj.io/testapp.update-strategy: semver:~1.0
+    argocd-image-updater.argoproj.io/testapp.allow-tags: regexp:^1\.0\.\d+-dev\.g[a-f0-9]+$
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+    argocd-image-updater.argoproj.io/testapp.force-update: "true"
+spec:
+  generators:
+  - list:
+      elements:
+      - server: https://kubernetes.default.svc
+        name: in-cluster
+  template:
+    metadata:
+      name: argo-cd-test
+      annotations:
+        # Image updater annotations for the Application
+        argocd-image-updater.argoproj.io/image-list: testapp=localhost:5000/testapp/argo-cd-test
+        argocd-image-updater.argoproj.io/testapp.update-strategy: semver:~1.0
+        argocd-image-updater.argoproj.io/testapp.allow-tags: regexp:^1\.0\.\d+-dev\.g[a-f0-9]+$
+        argocd-image-updater.argoproj.io/write-back-method: argocd
+        argocd-image-updater.argoproj.io/testapp.force-update: "true"
+    spec:
+      project: default
+      source:
+        repoURL: file:///c:/Users/RohitMundayaliyathMu/Desktop/TestArgoCD
+        targetRevision: HEAD
+        path: helm-chart
+        helm:
+          valueFiles:
+          - values.yaml
+      destination:
+        server: '{{server}}'
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
