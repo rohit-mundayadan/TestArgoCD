@@ -3,13 +3,6 @@ kind: ApplicationSet
 metadata:
   name: argo-cd-test
   namespace: argocd
-  annotations:
-    # Configure ArgoCD Image Updater
-    argocd-image-updater.argoproj.io/image-list: testapp=rohitmmm/argo-cd-test
-    argocd-image-updater.argoproj.io/testapp.update-strategy: semver:~1.0
-    argocd-image-updater.argoproj.io/testapp.allow-tags: regexp:^1\.0\.\d+-dev\.g[a-f0-9]+$
-    argocd-image-updater.argoproj.io/write-back-method: argocd
-    argocd-image-updater.argoproj.io/testapp.force-update: "true"
 spec:
   generators:
   - list:
