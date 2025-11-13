@@ -29,8 +29,8 @@ spec:
     spec:
       project: default
       source:
-        repoURL: file:///c:/Users/RohitMundayaliyathMu/Desktop/TestArgoCD
-        targetRevision: HEAD
+        repoURL: https://github.com/rohit-mundayadan/TestArgoCD.git
+        targetRevision: main
         path: helm-chart
         helm:
           valueFiles:
