@@ -5,22 +5,14 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - server: https://kubernetes.default.svc
-        name: in-cluster
+  - git:
+      repoURL: https://github.com/rohit-mundayadan/TestArgoCD.git
+      revision: main
+      files:
+      - path: "helm-chart-2/Chart.yaml"
   template:
     metadata:
       name: argo-cd-test
-      annotations:
-        # Image updater annotations for the Application
-        argocd-image-updater.argoproj.io/image-list: testapp=rohitmmm/argo-cd-test
-        argocd-image-updater.argoproj.io/testapp.update-strategy: semver
-        argocd-image-updater.argoproj.io/testapp.allow-tags: regexp:^\d+\.\d+\.\d+-dev\.[a-f0-9]+$
-        argocd-image-updater.argoproj.io/write-back-method: argocd
-        argocd-image-updater.argoproj.io/testapp.force-update: "true"
-        argocd-image-updater.argoproj.io/testapp.helm.image-name: image.repository
-        argocd-image-updater.argoproj.io/testapp.helm.image-tag: image.tag
     spec:
       project: default
       source:
@@ -30,8 +22,11 @@ spec:
         helm:
           valueFiles:
           - values.yaml
+          parameters:
+          - name: image.tag
+            value: '{{appVersion}}'
       destination:
-        server: '{{server}}'
+        server: https://kubernetes.default.svc
         namespace: default
       syncPolicy:
         automated:
