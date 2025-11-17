@@ -1,0 +1,6 @@
+apiVersion: v2
+name: argo-cd-test
+description: A test Helm chart for ArgoCD Image Updater testing
+type: application
+version: 0.1.0
+appVersion: "1.2.58-dev.f5784da"
