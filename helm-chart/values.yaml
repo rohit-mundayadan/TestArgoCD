@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   registry: ""
   repository: rohitmmm/argo-cd-test
-  tag: "1.0.0-dev.g0c85fbc"
+  #tag: "OVERRIDDEN-IN-ARGOCD"
   pullPolicy: IfNotPresent
 
 service:
